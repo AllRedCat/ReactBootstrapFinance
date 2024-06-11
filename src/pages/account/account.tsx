@@ -7,6 +7,18 @@ import { useState } from 'react';
 export default function Account() {
     // const [accoutData, setAccoutData] = useState<{ name: string; description: string }[]>([]);
 
+    const saveDatainCache = (key: string, array: any) => {
+        const arrayCache = JSON.stringify(array);
+        localStorage.setItem(key, arrayCache);
+        console.log('Salvo no cache'); // teste
+    };
+
+    const getDataFromCache = (key: string) => {
+        const arrayCache = localStorage.getItem(key);
+        return arrayCache ? JSON.parse(arrayCache) : [];
+        console.log('Carregado do cache'); // teste
+    };
+
     const [accoutData, setAccoutData] = useState([
         { name: 'Banco do Brasil', description: 'Conta corrente' },
         { name: 'Nubank', description: 'Conta digital' }
@@ -23,6 +35,8 @@ export default function Account() {
             { name, description }
         ]);
 
+        saveDatainCache('accoutData', accoutData);
+        getDataFromCache('accoutData');
         console.log(accoutData);
     }
 
