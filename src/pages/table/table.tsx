@@ -1,24 +1,32 @@
-import { Container, Stack } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Table, Container } from 'react-bootstrap';
 
-export default function Table() {
+export default function TablePage() {
     return (
-        <Container className='mt-5' fluid='sm'>
-            <Stack gap={3}>
-                <Form>
-                    <Form.Group className='mb-3' controlId="formBasicEmail">
-                        <Form.Label>Nome</Form.Label>
-                        <Form.Control type="text" placeholder="Nome" name='name' />
-                        <Form.Label>Descrição</Form.Label>
-                        <Form.Control type="text" placeholder="Descrição" name='description' />
-                    </Form.Group>
-                    <Stack direction="horizontal" gap={3}>
-                        <Button type="reset" variant="secondary">Cancelar</Button>
-                        <Button type="submit" variant="primary">Salvar</Button>
-                    </Stack>
-                </Form>
-            </Stack>
+        <Container className='mt-5'>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Valor</th>
+                        <th>Conta</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                </tbody>
+            </Table>
         </Container>
     );
 }

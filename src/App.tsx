@@ -4,7 +4,7 @@ import Home from './pages/home/home';
 import Account from './pages/account/account';
 import Categories from './pages/categories/categories';
 import Transictions from './pages/transictions/transictions';
-import Tables from './pages/table/table';
+import TableSection from './pages/table/table';
 
 function App() {
   let Component;
@@ -22,7 +22,7 @@ function App() {
       Component = <Transictions />;
       break;
     case '/tables':
-      Component = <Tables />;
+      Component = <TableSection />;
       break;
     default:
       break;
