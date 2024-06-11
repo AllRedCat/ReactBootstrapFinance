@@ -32,7 +32,6 @@ function App() {
     <>
       <NavigationBar />
       {Component}
-      <h1>Hello world!</h1>
     </>
   )
 }
