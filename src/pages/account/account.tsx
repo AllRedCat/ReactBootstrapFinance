@@ -7,6 +7,11 @@ import { useState } from 'react';
 export default function Account() {
     // const [accoutData, setAccoutData] = useState<{ name: string; description: string }[]>([]);
 
+    let [accoutData, setAccoutData] = useState([
+        { name: 'Banco do Brasil', description: 'Conta corrente' },
+        { name: 'Nubank', description: 'Conta digital' }
+    ]);
+
     const saveDatainCache = (key: string, array: any) => {
         const arrayCache = JSON.stringify(array);
         localStorage.setItem(key, arrayCache);
@@ -15,14 +20,14 @@ export default function Account() {
 
     const getDataFromCache = (key: string) => {
         const arrayCache = localStorage.getItem(key);
-        return arrayCache ? JSON.parse(arrayCache) : [];
-        console.log('Carregado do cache'); // teste
+        // return arrayCache ? JSON.parse(arrayCache) : [];
+        let AccountData = arrayCache;
+        if (AccountData) {
+            AccountData = JSON.parse(AccountData);
+        }
+        console.log(AccountData);
     };
 
-    const [accoutData, setAccoutData] = useState([
-        { name: 'Banco do Brasil', description: 'Conta corrente' },
-        { name: 'Nubank', description: 'Conta digital' }
-    ]);
 
     function submitHandler(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
