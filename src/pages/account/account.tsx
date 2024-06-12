@@ -22,6 +22,7 @@ export default function Account() {
         ]);
 
         console.log(accountData);
+        event.currentTarget.reset();
     }
 
     return (
