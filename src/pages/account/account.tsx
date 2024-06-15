@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 
 // Firebase
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDocs, collection, addDoc } from "firebase/firestore";
+import { getFirestore, getDocs, collection, addDoc, doc, deleteDoc } from "firebase/firestore";
 
 const firebaseConfig = initializeApp({
     apiKey: "AIzaSyASUf-PgdhfjbGlUinHE1eoS8TErb4kShs",
@@ -28,6 +28,11 @@ export default function Account() {
         const data = querySnapshot.docs.map(doc => doc.data() as { name: string; description: string; });
         setAccounts(data);
     };
+
+    const deleteAccount = async (id: string) => {
+        const accountDoc = doc(db, 'Accounts', id);
+        await deleteDoc(accountDoc);
+    }
 
     useEffect(() => {
         fetchData();
@@ -73,6 +78,7 @@ export default function Account() {
                             <tr key={index}>
                                 <td>{item.name}</td>
                                 <td>{item.description}</td>
+                                <td><Button variant='danger' onClick={() => deleteAccount(item.id)}>Deletar</Button></td>
                             </tr>
                         ))}
                     </tbody>
