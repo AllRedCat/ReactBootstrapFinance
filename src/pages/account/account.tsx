@@ -25,7 +25,13 @@ export default function Account() {
 
     const fetchData = async () => {
         const querySnapshot = await getDocs(collection(db, 'Accounts'));
-        const data = querySnapshot.docs.map(doc => doc.data() as { name: string; description: string; });
+        // const data = querySnapshot.docs.map(doc => doc.data() as { name: string; description: string; });
+        const data = querySnapshot.docs.map(doc => {
+            const id = doc.id;
+            const accountData = doc.data() as { name: string; description: string; };
+            return { id, ...accountData };
+        });
+        console.log(data);
         setAccounts(data);
     };
 
