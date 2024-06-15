@@ -6,8 +6,7 @@ import React, { useState, useEffect } from 'react';
 
 // Firebase
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDocs, collection } from "firebase/firestore";
-// import { set } from 'firebase/database';
+import { getFirestore, getDocs, collection, addDoc } from "firebase/firestore";
 
 const firebaseConfig = initializeApp({
     apiKey: "AIzaSyASUf-PgdhfjbGlUinHE1eoS8TErb4kShs",
@@ -24,21 +23,27 @@ const db = getFirestore(firebaseConfig);
 export default function Account() {
     const [accounts, setAccounts] = useState<{ name: string; description: string; }[]>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const querySnapshot = await getDocs(collection(db, 'Accounts'));
-            const data = querySnapshot.docs.map(doc => doc.data() as { name: string; description: string; });
-            setAccounts(data);
-        };
+    const fetchData = async () => {
+        const querySnapshot = await getDocs(collection(db, 'Accounts'));
+        const data = querySnapshot.docs.map(doc => doc.data() as { name: string; description: string; });
+        setAccounts(data);
+    };
 
+    useEffect(() => {
         fetchData();
     }, []);
 
-
-
-    function submitHandler(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        event.currentTarget.reset();
+    async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
+        try {
+            await addDoc(collection(db, 'Accounts'), {
+                name: event.currentTarget.name.value,
+                description: event.currentTarget.description.value
+            });
+            setAccounts([...accounts, { name: event.currentTarget.name.value, description: event.currentTarget.description.value }]);
+            fetchData();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -76,13 +81,3 @@ export default function Account() {
         </Container>
     );
 }
-
-// {/* {accountData.map((item, index) => (
-//     <tr key={index}>
-//         <td>{item.name}</td>
-//         <td>{item.description}</td>
-//     </tr>
-// ))} */}
-
-
-
