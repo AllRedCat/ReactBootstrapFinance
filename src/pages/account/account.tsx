@@ -38,6 +38,7 @@ export default function Account() {
     const deleteAccount = async (id: string) => {
         const accountDoc = doc(db, 'Accounts', id);
         await deleteDoc(accountDoc);
+        window.location.reload();
     }
 
     useEffect(() => {
