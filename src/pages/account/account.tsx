@@ -4,24 +4,40 @@ import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
 
+// Firebase
+import { initializeApp } from "firebase/app";
+import { getFirestore, getDocs, collection } from "firebase/firestore";
+// import { set } from 'firebase/database';
+
+const firebaseConfig = initializeApp({
+    apiKey: "AIzaSyASUf-PgdhfjbGlUinHE1eoS8TErb4kShs",
+    authDomain: "financereact-77dac.firebaseapp.com",
+    projectId: "financereact-77dac",
+    storageBucket: "financereact-77dac.appspot.com",
+    messagingSenderId: "257796398320",
+    appId: "1:257796398320:web:8140b66dd4af3f85cf3635",
+    measurementId: "G-8WPCJGQQNK"
+});
+
+const db = getFirestore(firebaseConfig);
+
 export default function Account() {
-    const [accountData, setAccountData] = useState([
-        { name: 'Banco do Brasil', description: 'Conta corrente' },
-        { name: 'Nubank', description: 'Conta digital' }
-    ]);
+    const [accounts, setAccounts] = useState<{ name: string; description: string; }[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const querySnapshot = await getDocs(collection(db, 'Accounts'));
+            const data = querySnapshot.docs.map(doc => doc.data() as { name: string; description: string; });
+            setAccounts(data);
+        };
+
+        fetchData();
+    }, []);
+
+
 
     function submitHandler(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-
-        const name = event.currentTarget.name.value;
-        const description = event.currentTarget.description.value;
-
-        setAccountData(prevData => [
-            ...prevData,
-            { name, description }
-        ]);
-
-        console.log(accountData);
         event.currentTarget.reset();
     }
 
@@ -48,7 +64,7 @@ export default function Account() {
                         </tr>
                     </thead>
                     <tbody>
-                        {accountData.map((item, index) => (
+                        {accounts.map((item, index) => (
                             <tr key={index}>
                                 <td>{item.name}</td>
                                 <td>{item.description}</td>
@@ -60,4 +76,13 @@ export default function Account() {
         </Container>
     );
 }
+
+// {/* {accountData.map((item, index) => (
+//     <tr key={index}>
+//         <td>{item.name}</td>
+//         <td>{item.description}</td>
+//     </tr>
+// ))} */}
+
+
 
