@@ -31,7 +31,6 @@ export default function Account() {
             const accountData = doc.data() as { name: string; description: string; };
             return { id, ...accountData };
         });
-        console.log(data);
         setAccounts(data);
     };
 
@@ -46,13 +45,14 @@ export default function Account() {
     }, []);
 
     async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const name = formData.get('name') as string;
+        const description = formData.get('description') as string;
+        event.currentTarget.reset();
         try {
-            await addDoc(collection(db, 'Accounts'), {
-                name: event.currentTarget.name.value,
-                description: event.currentTarget.description.value
-            });
-            setAccounts([...accounts, { name: event.currentTarget.name.value, description: event.currentTarget.description.value }]);
-            fetchData();
+            await addDoc(collection(db, 'Accounts'), { name, description });
+            setAccounts([...accounts, { name, description }]);
         } catch (error) {
             console.log(error);
         }
