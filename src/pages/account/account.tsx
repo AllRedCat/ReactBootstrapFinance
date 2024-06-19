@@ -3,20 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import React, { useState, useEffect } from 'react';
-
-// Firebase
-import { initializeApp } from "firebase/app";
+import { firebaseConfig } from '../../components/firebase';
 import { getFirestore, getDocs, collection, addDoc, doc, deleteDoc } from "firebase/firestore";
-
-const firebaseConfig = initializeApp({
-    apiKey: "AIzaSyASUf-PgdhfjbGlUinHE1eoS8TErb4kShs",
-    authDomain: "financereact-77dac.firebaseapp.com",
-    projectId: "financereact-77dac",
-    storageBucket: "financereact-77dac.appspot.com",
-    messagingSenderId: "257796398320",
-    appId: "1:257796398320:web:8140b66dd4af3f85cf3635",
-    measurementId: "G-8WPCJGQQNK"
-});
 
 const db = getFirestore(firebaseConfig);
 
@@ -47,14 +35,12 @@ export default function Account() {
     }, []);
 
     async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const name = formData.get('name') as string;
-        const description = formData.get('description') as string;
-        event.currentTarget.reset();
         try {
-            await addDoc(collection(db, 'Accounts'), { name, description });
-            setAccounts([...accounts, { name, description }]);
+            await addDoc(collection(db, 'Accounts'), {
+                name: event.currentTarget.name.value,
+                description: event.currentTarget.description.value
+            });
+            setAccounts([...accounts, { name: event.currentTarget.name.value, description: event.currentTarget.description.value }]);
         } catch (error) {
             console.log(error);
         }
