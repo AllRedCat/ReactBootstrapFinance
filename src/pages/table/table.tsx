@@ -46,10 +46,10 @@ export default function TablePage() {
         window.location.reload();
     }
 
-    function handleClick() {
-        console.log(valueIn);
-        console.log(valueOut);
-    };
+    // function handleClick() {
+    //     console.log(valueIn);
+    //     console.log(valueOut);
+    // };
 
     return (
         <Container className='mt-5'>
@@ -102,7 +102,7 @@ export default function TablePage() {
                         </tbody>
                     </Table>
                 </div>
-                <button onClick={handleClick}>teste</button>
+                {/* <button onClick={handleClick}>teste</button> */}
             </Stack>
         </Container >
     );
