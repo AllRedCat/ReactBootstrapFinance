@@ -1,20 +1,9 @@
-import { Table, Container, Stack } from 'react-bootstrap';
+import { Table, Container, Stack, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { firebaseConfig } from '../../components/firebase';
 import { getFirestore, getDocs, collection, doc, deleteDoc } from "firebase/firestore";
-import { ErrorBoundary } from 'react-error-boundary';
 
 const db = getFirestore(firebaseConfig);
-
-function ErrorFallback({ error, resetErrorBoundary }) {
-    // Exiba uma mensagem de erro personalizada ou outra UI alternativa aqui
-    return (
-        <div>
-            Algo deu errado: {error.message}
-            <button onClick={resetErrorBoundary}>Tentar novamente</button>
-        </div>
-    );
-}
 
 export default function TablePage() {
     const [valueIn, setValueIn] = useState<{ date: any, value: Number, description: string }[]>([]);
@@ -49,6 +38,14 @@ export default function TablePage() {
         fetchData();
     }, []);
 
+    const deleteAccount = async (id: string) => {
+        const accountDoc = doc(db, 'TrEntrada', id);
+        await deleteDoc(accountDoc);
+        const accountDocOut = doc(db, 'TrSaida', id);
+        await deleteDoc(accountDocOut);
+        window.location.reload();
+    }
+
     function handleClick() {
         console.log(valueIn);
         console.log(valueOut);
@@ -59,28 +56,27 @@ export default function TablePage() {
             <Stack gap={3}>
                 <div>
                     <h2>Entrada</h2>
-                    <ErrorBoundary FallbackComponent={ErrorFallback}>
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>Data</th>
-                                    <th>Valor</th>
-                                    <th>Conta</th>
-                                    <th>Descrição</th>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Valor</th>
+                                <th>Conta</th>
+                                <th>Descrição</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {valueIn.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.date}</td>
+                                    <td>{item.value}</td>
+                                    <td>teste</td>
+                                    <td>{item.description}</td>
+                                    <td><Button variant='danger' onClick={() => deleteAccount(item.id)}>Deletar</Button></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {valueIn.map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{item.date}</td>
-                                        <td>{item.value}</td>
-                                        <td>teste</td>
-                                        <td>{item.description}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </ErrorBoundary>
+                            ))}
+                        </tbody>
+                    </Table>
                 </div>
                 <div>
                     <h2>Saída</h2>
@@ -100,6 +96,7 @@ export default function TablePage() {
                                     <td>{item.value}</td>
                                     <td>teste</td>
                                     <td>{item.description}</td>
+                                    <td><Button variant='danger' onClick={() => deleteAccount(item.id)}>Deletar</Button></td>
                                 </tr>
                             ))}
                         </tbody>
