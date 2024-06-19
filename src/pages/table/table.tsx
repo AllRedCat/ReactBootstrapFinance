@@ -18,23 +18,7 @@ function ErrorFallback({ error, resetErrorBoundary }) {
 
 export default function TablePage() {
     const [valueIn, setValueIn] = useState<{ date: any, value: Number, description: string }[]>([]);
-
-    // const fetchData = async () => {
-    //     const querySnapshot = await getDocs(collection(db, 'TrEntrada'));
-    //     const data = querySnapshot.docs.map(doc => {
-    //         const id = doc.id;
-    //         const transictionData = doc.data() as { date: any, value: number, description: string };
-    //         return { id, ...transictionData };
-    //     });
-    //     setValueIn(data);
-    //     console.log(data);
-    // };
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-
-    // const [valueIn, setValueIn] = useState([]);
+    const [valueOut, setValueOut] = useState<{ date: any, value: Number, description: string }[]>([]);
 
     const fetchData = async () => {
         try {
@@ -42,8 +26,19 @@ export default function TablePage() {
             const data = querySnapshot.docs.map(doc => {
                 const id = doc.id;
                 const transictionData = doc.data() as { date: any, value: Number, description: string };
-                return { id, ...transictionData };
+                const data = new Date(transictionData.date.seconds * 1000);
+                const formattedDate = data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                return { id, ...transictionData, date: formattedDate };
             });
+            const querySnapshotOut = await getDocs(collection(db, 'TrSaida'));
+            const dataOut = querySnapshotOut.docs.map(doc => {
+                const id = doc.id;
+                const transictionData = doc.data() as { date: any, value: Number, description: string };
+                const dateOut = new Date(transictionData.date.seconds * 1000);
+                const formattedDate = dateOut.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                return { id, ...transictionData, date: formattedDate };
+            });
+            setValueOut(dataOut);
             setValueIn(data);
         } catch (err) {
             console.log(err);
@@ -56,6 +51,7 @@ export default function TablePage() {
 
     function handleClick() {
         console.log(valueIn);
+        console.log(valueOut);
     };
 
     return (
@@ -82,18 +78,6 @@ export default function TablePage() {
                                         <td>{item.description}</td>
                                     </tr>
                                 ))}
-                                {/* <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr> */}
                             </tbody>
                         </Table>
                     </ErrorBoundary>
@@ -110,18 +94,14 @@ export default function TablePage() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
+                            {valueOut.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.date}</td>
+                                    <td>{item.value}</td>
+                                    <td>teste</td>
+                                    <td>{item.description}</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </Table>
                 </div>
