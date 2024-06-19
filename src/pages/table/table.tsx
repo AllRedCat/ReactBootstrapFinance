@@ -1,4 +1,5 @@
 import { Table, Container } from 'react-bootstrap';
+import { useState } from 'react';
 
 export default function TablePage() {
     return (
