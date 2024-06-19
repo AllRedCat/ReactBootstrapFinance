@@ -21,7 +21,9 @@ const firebaseConfig = initializeApp({
 const db = getFirestore(firebaseConfig);
 
 export default function Account() {
-    const [accounts, setAccounts] = useState<{ name: string; description: string; }[]>([]);
+    const [accounts, setAccounts] = useState<{
+        id(id: any): void; name: string; description: string;
+    }[]>([]);
 
     const fetchData = async () => {
         const querySnapshot = await getDocs(collection(db, 'Accounts'));
