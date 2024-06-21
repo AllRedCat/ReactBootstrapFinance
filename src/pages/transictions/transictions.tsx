@@ -22,7 +22,7 @@ export default function Transictions() {
     };
 
     async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
-        try {
+        try {   
             if (selected[0] === 'entrada') {
                 await addDoc(collection(db, 'TrEntrada'), {
                     date: event.currentTarget.date.value,
@@ -42,7 +42,7 @@ export default function Transictions() {
         }
     }
 
-    const fetchData = async () => {
+    const fetchDataTeste = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, 'TrEntrada'));
             const data = querySnapshot.docs.map(doc => {
@@ -64,20 +64,18 @@ export default function Transictions() {
             const querySnapshotOut = await getDocs(collection(db, 'TrSaida'));
             const dataOut = querySnapshotOut.docs.map(doc => {
                 const id = doc.id;
-                // const transictionData = doc.data() as { date: any, value: number, description: string };
-                // const data = new Date(transictionData.date.seconds * 1000);
-                // const formattedDate = data.toLocaleDateString('pt-BR', {
-
-                //     day: '2-digit',
-
-                //     month: '2-digit',
-
-                //     year: 'numeric'
-
-                // });
-                // return {id, ...transictionData, date: formattedDate};
                 const transictionData = doc.data() as { date: any, value: number, description: string };
-                return {id, ...transictionData};
+                const data = new Date(transictionData.date.seconds * 1000);
+                const formattedDate = data.toLocaleDateString('pt-BR', {
+
+                    day: '2-digit',
+
+                    month: '2-digit',
+
+                    year: 'numeric'
+
+                });
+                return {id, ...transictionData, date: formattedDate};
             });
             console.log(dataOut);
             console.log(data);
@@ -170,7 +168,7 @@ export default function Transictions() {
                     <Stack direction="horizontal" gap={3}>
                         <Button type="reset" variant="secondary">Cancelar</Button>
                         <Button type="submit" variant="primary">Salvar</Button>
-                        <Button variant='info' onClick={fetchData}>Teste</Button>
+                        <Button variant='info' onClick={fetchDataTeste}>Teste</Button>
                     </Stack>
                 </Form>
             </Stack>
