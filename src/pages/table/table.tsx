@@ -15,17 +15,19 @@ export default function TablePage() {
             const data = querySnapshot.docs.map(doc => {
                 const id = doc.id;
                 const transictionData = doc.data() as { date: any, value: Number, description: string };
-                const data = new Date(transictionData.date.seconds * 1000);
-                const formattedDate = data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                return { id, ...transictionData, date: formattedDate };
+                // const data = new Date(transictionData.date.seconds * 1000);
+                // const formattedDate = data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                // return { id, ...transictionData, date: formattedDate };
+                return { id, ...transictionData };
             });
             const querySnapshotOut = await getDocs(collection(db, 'TrSaida'));
             const dataOut = querySnapshotOut.docs.map(doc => {
                 const id = doc.id;
                 const transictionData = doc.data() as { date: any, value: Number, description: string };
-                const dateOut = new Date(transictionData.date.seconds * 1000);
-                const formattedDate = dateOut.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                return { id, ...transictionData, date: formattedDate };
+                // const dateOut = new Date(transictionData.date.seconds * 1000);
+                // const formattedDate = dateOut.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                // return { id, ...transictionData, date: formattedDate };
+                return { id, ...transictionData };
             });
             setValueOut(dataOut);
             setValueIn(data);

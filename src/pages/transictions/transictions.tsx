@@ -1,5 +1,5 @@
 import {Container, Stack, Form, InputGroup, Button, Row, Col} from 'react-bootstrap';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {firebaseConfig} from '../../components/firebase';
 import {getFirestore, getDocs, collection, addDoc} from "firebase/firestore";
 
@@ -64,18 +64,20 @@ export default function Transictions() {
             const querySnapshotOut = await getDocs(collection(db, 'TrSaida'));
             const dataOut = querySnapshotOut.docs.map(doc => {
                 const id = doc.id;
+                // const transictionData = doc.data() as { date: any, value: number, description: string };
+                // const data = new Date(transictionData.date.seconds * 1000);
+                // const formattedDate = data.toLocaleDateString('pt-BR', {
+
+                //     day: '2-digit',
+
+                //     month: '2-digit',
+
+                //     year: 'numeric'
+
+                // });
+                // return {id, ...transictionData, date: formattedDate};
                 const transictionData = doc.data() as { date: any, value: number, description: string };
-                const data = new Date(transictionData.date.seconds * 1000);
-                const formattedDate = data.toLocaleDateString('pt-BR', {
-
-                    day: '2-digit',
-
-                    month: '2-digit',
-
-                    year: 'numeric'
-
-                });
-                return {id, ...transictionData, date: formattedDate};
+                return {id, ...transictionData};
             });
             console.log(dataOut);
             console.log(data);
