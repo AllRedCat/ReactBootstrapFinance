@@ -44,9 +44,7 @@ export default function Account() {
             });
             window.location.reload();
             setAccounts([...accounts, { name: event.currentTarget.name.value, description: event.currentTarget.description.value }]);
-            console.log('Enviado');
         } catch (error) {
-            console.log('nao enviado');
             console.log(error);
         }
     }

@@ -1,5 +1,5 @@
 import {Container, Stack, Form, InputGroup, Button, Row, Col} from 'react-bootstrap';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {firebaseConfig} from '../../components/firebase';
 import {getFirestore, getDocs, collection, addDoc} from "firebase/firestore";
 
@@ -42,47 +42,23 @@ export default function Transictions() {
         }
     }
 
-    const fetchDataTeste = async () => {
+    const fetchData = async () => {
         try {
-            const querySnapshot = await getDocs(collection(db, 'TrEntrada'));
-            const data = querySnapshot.docs.map(doc => {
+            const querySnapshotAcc = await getDocs(collection(db, 'Accounts'));
+            const dataAcc = querySnapshotAcc.docs.map(doc => {
                 const id = doc.id;
-                const transictionData = doc.data() as { date: any, value: number, description: string };
-                const data = new Date(transictionData.date.seconds * 1000);
-                const formattedDate = data.toLocaleDateString('pt-BR', {
-
-                    day: '2-digit',
-
-                    month: '2-digit',
-
-                    year: 'numeric'
-
-                });
-                return {id, ...transictionData, date: formattedDate};
+                const accountData = doc.data() as { name: string, balance: number };
+                return {id, ...accountData};
             });
-            console.log(data);
-            const querySnapshotOut = await getDocs(collection(db, 'TrSaida'));
-            const dataOut = querySnapshotOut.docs.map(doc => {
-                const id = doc.id;
-                const transictionData = doc.data() as { date: any, value: number, description: string };
-                const data = new Date(transictionData.date.seconds * 1000);
-                const formattedDate = data.toLocaleDateString('pt-BR', {
-
-                    day: '2-digit',
-
-                    month: '2-digit',
-
-                    year: 'numeric'
-
-                });
-                return {id, ...transictionData, date: formattedDate};
-            });
-            console.log(dataOut);
-            console.log(data);
+            console.log(dataAcc);
         } catch (err) {
             console.log(err);
         }
     };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <Container className='mt-5' fluid='sm'>
@@ -168,7 +144,7 @@ export default function Transictions() {
                     <Stack direction="horizontal" gap={3}>
                         <Button type="reset" variant="secondary">Cancelar</Button>
                         <Button type="submit" variant="primary">Salvar</Button>
-                        <Button variant='info' onClick={fetchDataTeste}>Teste</Button>
+                        <Button variant='info'>Teste</Button>
                     </Stack>
                 </Form>
             </Stack>
