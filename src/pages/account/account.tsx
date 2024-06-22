@@ -22,6 +22,7 @@ export default function Account() {
             return { id, ...accountData };
         });
         setAccounts(data);
+        console.log(data);
     };
 
     const deleteAccount = async (id: string) => {
@@ -35,13 +36,17 @@ export default function Account() {
     }, []);
 
     async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
         try {
             await addDoc(collection(db, 'Accounts'), {
                 name: event.currentTarget.name.value,
                 description: event.currentTarget.description.value
             });
+            window.location.reload();
             setAccounts([...accounts, { name: event.currentTarget.name.value, description: event.currentTarget.description.value }]);
+            console.log('Enviado');
         } catch (error) {
+            console.log('nao enviado');
             console.log(error);
         }
     }
