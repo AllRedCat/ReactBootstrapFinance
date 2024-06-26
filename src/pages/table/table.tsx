@@ -6,27 +6,21 @@ import { getFirestore, getDocs, collection, doc, deleteDoc } from "firebase/fire
 const db = getFirestore(firebaseConfig);
 
 export default function TablePage() {
-    const [valueIn, setValueIn] = useState<{ date: any, value: Number, description: string }[]>([]);
-    const [valueOut, setValueOut] = useState<{ date: any, value: Number, description: string }[]>([]);
+    const [valueIn, setValueIn] = useState<{ date: any, value: Number, account: string, category: string, description: string }[]>([]);
+    const [valueOut, setValueOut] = useState<{ date: any, value: Number, account: string, category: string, description: string }[]>([]);
 
     const fetchData = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, 'TrEntrada'));
             const data = querySnapshot.docs.map(doc => {
                 const id = doc.id;
-                const transictionData = doc.data() as { date: any, value: Number, description: string };
-                // const data = new Date(transictionData.date.seconds * 1000);
-                // const formattedDate = data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                // return { id, ...transictionData, date: formattedDate };
+                const transictionData = doc.data() as { date: any, value: Number, account: string, category: string, description: string };
                 return { id, ...transictionData };
             });
             const querySnapshotOut = await getDocs(collection(db, 'TrSaida'));
             const dataOut = querySnapshotOut.docs.map(doc => {
                 const id = doc.id;
-                const transictionData = doc.data() as { date: any, value: Number, description: string };
-                // const dateOut = new Date(transictionData.date.seconds * 1000);
-                // const formattedDate = dateOut.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-                // return { id, ...transictionData, date: formattedDate };
+                const transictionData = doc.data() as { date: any, value: Number, account: string, category: string, description: string };
                 return { id, ...transictionData };
             });
             setValueOut(dataOut);
@@ -49,11 +43,6 @@ export default function TablePage() {
         await deleteDoc(accountDocOut);
         window.location.reload();
     }
-
-    // function handleClick() {
-    //     console.log(valueIn);
-    //     console.log(valueOut);
-    // };
 
     return (
         <Container className='mt-5'>
@@ -118,7 +107,6 @@ export default function TablePage() {
                         </tbody>
                     </Table>
                 </div>
-                {/* <button onClick={handleClick}>teste</button> */}
             </Stack>
         </Container >
     );

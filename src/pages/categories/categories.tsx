@@ -14,14 +14,12 @@ export default function Categories() {
 
     const fetchData = async () => {
         const querySnapshot = await getDocs(collection(db, 'Categories'));
-        // const data = querySnapshot.docs.map(doc => doc.data() as { name: string; description: string; });
         const data = querySnapshot.docs.map(doc => {
             const id = doc.id;
             const categoryData = doc.data() as { name: string; description: string; };
             return { id, ...categoryData };
         });
         setCategories(data);
-        // console.log(data);
     };
 
     const deleteCategory = async (id: string) => {
