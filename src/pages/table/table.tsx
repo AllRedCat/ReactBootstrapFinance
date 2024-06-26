@@ -31,6 +31,8 @@ export default function TablePage() {
             });
             setValueOut(dataOut);
             setValueIn(data);
+            console.log(data);
+            console.log(dataOut);
         } catch (err) {
             console.log(err);
         }
@@ -64,7 +66,9 @@ export default function TablePage() {
                                 <th>Data</th>
                                 <th>Valor</th>
                                 <th>Conta</th>
+                                <th>Categoria</th>
                                 <th>Descrição</th>
+                                <th>Opções</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,7 +76,8 @@ export default function TablePage() {
                                 <tr key={index}>
                                     <td>{item.date}</td>
                                     <td>{item.value}</td>
-                                    <td>teste</td>
+                                    <td>{item.Account}</td>
+                                    <td>{item.Category}</td>
                                     <td>{item.description}</td>
                                     <td><Button variant='danger' onClick={() => deleteAccount(item.id)}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -91,7 +96,9 @@ export default function TablePage() {
                                 <th>Data</th>
                                 <th>Valor</th>
                                 <th>Conta</th>
+                                <th>Categoria</th>
                                 <th>Descrição</th>
+                                <th>Opções</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,7 +106,8 @@ export default function TablePage() {
                                 <tr key={index}>
                                     <td>{item.date}</td>
                                     <td>{item.value}</td>
-                                    <td>teste</td>
+                                    <td>{item.Account}</td>
+                                    <td>{item.Category}</td>
                                     <td>{item.description}</td>
                                     <td><Button variant='danger' onClick={() => deleteAccount(item.id)}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />

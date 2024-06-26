@@ -2,6 +2,7 @@ import {Container, Stack, Form, InputGroup, Button, Row, Col} from 'react-bootst
 import React, {useState, useEffect} from 'react';
 import {firebaseConfig} from '../../components/firebase';
 import {getFirestore, getDocs, collection, addDoc} from "firebase/firestore";
+import Account from '../account/account';
 
 const db = getFirestore(firebaseConfig);
 
@@ -22,11 +23,14 @@ export default function Transictions() {
     };
 
     async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
         try {   
             if (selected[0] === 'entrada') {
                 await addDoc(collection(db, 'TrEntrada'), {
                     date: event.currentTarget.date.value,
                     value: event.currentTarget.value.value,
+                    Account: event.currentTarget.account.value,
+                    Category: event.currentTarget.category.value,
                     description: event.currentTarget.description.value
                 });
             }
@@ -34,23 +38,44 @@ export default function Transictions() {
                 await addDoc(collection(db, 'TrSaida'), {
                     date: event.currentTarget.date.value,
                     value: event.currentTarget.value.value,
+                    Account: event.currentTarget.account.value,
+                    Category: event.currentTarget.category.value,
                     description: event.currentTarget.description.value
                 });
             }
+            window.location.reload();
         } catch (error) {
             console.log(error);
         }
     }
 
+    const [dataAccounts, setDataAccounts] = useState([]);
+    const [dataCategories, setDataCategories] = useState([]);
+
     const fetchData = async () => {
         try {
             const querySnapshotAcc = await getDocs(collection(db, 'Accounts'));
             const dataAcc = querySnapshotAcc.docs.map(doc => {
-                const id = doc.id;
-                const accountData = doc.data() as { name: string, balance: number };
-                return {id, ...accountData};
+                // const id = doc.id;
+                const accountData = doc.data() as { name: string, description: string }; 
+                return accountData.name;
             });
-            console.log(dataAcc);
+            // const querySnapshotAcc = await getDocs(collection(db, 'Accounts'));
+            // const dataAcc = querySnapshotAcc.docs.map(doc => {
+            //     const id = doc.id;
+            //     const accountData = doc.data() as { name: string, description };
+            //     return {id, ...accountData};
+            // });
+            const querySnapshotCat = await getDocs(collection(db, 'Categories'));
+            const dataCat = querySnapshotCat.docs.map(doc => {
+                const id = doc.id;
+                const categoryData = doc.data() as { name: string, description: string };
+                return categoryData.name;
+            });
+            setDataAccounts(dataAcc);
+            setDataCategories(dataCat);
+            // console.log(dataAcc);
+            // console.log(dataCat);
         } catch (err) {
             console.log(err);
         }
@@ -59,6 +84,10 @@ export default function Transictions() {
     useEffect(() => {
         fetchData();
     }, []);
+
+    // const handleTeste = () => {
+    //     fetchData();
+    // }
 
     return (
         <Container className='mt-5' fluid='sm'>
@@ -95,20 +124,18 @@ export default function Transictions() {
                         <Row className='mb-3'>
                             <Form.Group as={Col}>
                                 <Form.Label>Conta</Form.Label>
-                                <Form.Select aria-label="Account">
-                                    <option>Conta ...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <Form.Select aria-label="Account" name='account'>
+                                        {dataAccounts.map((item, index) => (
+                                            <option key={index}>{item}</option>
+                                        ))}
                                 </Form.Select>
                             </Form.Group>
                             <Form.Group as={Col}>
                                 <Form.Label>Categoria</Form.Label>
-                                <Form.Select aria-label="Categories">
-                                    <option>Categoria ...</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <Form.Select aria-label="Categories" name='category'>
+                                        {dataCategories.map((item, index) => (
+                                            <option key={index}>{item}</option>
+                                        ))}
                                 </Form.Select>
                             </Form.Group>
                         </Row>
@@ -145,6 +172,7 @@ export default function Transictions() {
                         <Button type="reset" variant="secondary">Cancelar</Button>
                         <Button type="submit" variant="primary">Salvar</Button>
                         <Button variant='info'>Teste</Button>
+                        {/* <Button variant='info' onClick={handleTeste}>Teste</Button> */}
                     </Stack>
                 </Form>
             </Stack>

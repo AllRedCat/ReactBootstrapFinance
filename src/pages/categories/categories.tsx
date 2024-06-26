@@ -21,7 +21,7 @@ export default function Categories() {
             return { id, ...categoryData };
         });
         setCategories(data);
-        console.log(data);
+        // console.log(data);
     };
 
     const deleteCategory = async (id: string) => {
