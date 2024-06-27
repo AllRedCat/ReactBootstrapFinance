@@ -8,10 +8,10 @@ export default function NavigationBar() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/accounts">Accounts</Nav.Link>
-                        <Nav.Link href="/categories">Categories</Nav.Link>
-                        <Nav.Link href="/transfections">Transfections</Nav.Link>
-                        <Nav.Link href="/tables">Tables</Nav.Link>
+                        <Nav.Link href="/accounts">Contas</Nav.Link>
+                        <Nav.Link href="/categories">Categorias</Nav.Link>
+                        <Nav.Link href="/transfections">Transações</Nav.Link>
+                        <Nav.Link href="/tables">Tabela</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

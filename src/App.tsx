@@ -3,7 +3,7 @@ import NavigationBar from './components/NavBar';
 import Home from './pages/home/home';
 import Account from './pages/account/account';
 import Categories from './pages/categories/categories';
-import Transictions from './pages/transictions/transictions';
+import Transactions from './pages/transactions/transactions';
 import TableSection from './pages/table/table';
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
       Component = <Categories />;
       break;
     case '/transfections':
-      Component = <Transictions />;
+      Component = <Transactions />;
       break;
     case '/tables':
       Component = <TableSection />;
