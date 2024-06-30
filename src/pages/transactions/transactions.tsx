@@ -6,23 +6,18 @@ import { getFirestore, getDocs, collection, addDoc } from "firebase/firestore";
 const db = getFirestore(firebaseConfig);
 
 export default function Transactions() {
-    const [selected, setSelected] = useState<string[]>([]);
+    const [selected, setSelected] = useState<string | null>(null);
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const opcao = event.target.name;
-        if (selected.includes(opcao)) {
-            setSelected(selected.filter((item) => item !== opcao));
-            console.log(selected);
-        } else {
-            setSelected([...selected, opcao]);
-            console.log(selected);
-        }
+        setSelected((prevState) => (prevState === opcao) ? null : opcao );
+        console.log(selected);
     };
 
     async function submitHandler(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
-            if (selected[0] === 'entrada') {
+            if (selected === 'entrada') {
                 await addDoc(collection(db, 'TrEntrada'), {
                     date: event.currentTarget.date.value,
                     value: event.currentTarget.value.value,
@@ -131,7 +126,8 @@ export default function Transactions() {
                                     type="radio"
                                     id={`reverse-${type}-1`}
                                     onChange={handleCheckboxChange}
-                                    checked={selected && selected.includes('entrada')}
+                                    // checked={selected && selected.includes('entrada')}
+                                    checked={selected === 'entrada'}
                                 />
                                 <Form.Check
                                     inline
@@ -140,7 +136,8 @@ export default function Transactions() {
                                     type="radio"
                                     id={`reverse-${type}-2`}
                                     onChange={handleCheckboxChange}
-                                    checked={selected && selected.includes('saida')}
+                                    // checked={selected && selected.includes('saida')}
+                                    checked={selected === 'saida'}
                                 />
                             </div>
                         ))}
