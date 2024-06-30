@@ -6,16 +6,14 @@ import { getFirestore, getDocs, collection, addDoc } from "firebase/firestore";
 const db = getFirestore(firebaseConfig);
 
 export default function Transactions() {
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState<string[]>([]);
 
-    const handleCheckboxChange = (event) => {
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const opcao = event.target.name;
         if (selected.includes(opcao)) {
-            // Se a opção já estiver selecionada, remova-a
             setSelected(selected.filter((item) => item !== opcao));
             console.log(selected);
         } else {
-            // Caso contrário, adicione-a à lista de opções selecionadas
             setSelected([...selected, opcao]);
             console.log(selected);
         }
@@ -48,8 +46,8 @@ export default function Transactions() {
         }
     }
 
-    const [dataAccounts, setDataAccounts] = useState([]);
-    const [dataCategories, setDataCategories] = useState([]);
+    const [dataAccounts, setDataAccounts] = useState<string[]>([]);
+    const [dataCategories, setDataCategories] = useState<string[]>([]);
 
     const fetchData = async () => {
         try {

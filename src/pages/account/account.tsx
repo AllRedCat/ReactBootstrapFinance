@@ -10,7 +10,7 @@ const db = getFirestore(firebaseConfig);
 
 export default function Account() {
     const [accounts, setAccounts] = useState<{
-        id(id: any): void; name: string; description: string;
+        id:any; name: string; description: string;
     }[]>([]);
 
     const fetchData = async () => {
@@ -38,11 +38,10 @@ export default function Account() {
         event.preventDefault();
         try {
             await addDoc(collection(db, 'Accounts'), {
-                name: event.currentTarget.name.value,
+                name: event.currentTarget.account.value,
                 description: event.currentTarget.description.value
             });
             window.location.reload();
-            setAccounts([...accounts, { name: event.currentTarget.name.value, description: event.currentTarget.description.value }]);
         } catch (error) {
             console.log(error);
         }
@@ -54,7 +53,7 @@ export default function Account() {
                 <Form onSubmit={submitHandler}>
                     <Form.Group className='mb-3' controlId="formBasicEmail">
                         <Form.Label>Banco</Form.Label>
-                        <Form.Control type="text" placeholder="Banco" name='name' />
+                        <Form.Control type="text" placeholder="Banco" name='account' />
                         <Form.Label>Descrição</Form.Label>
                         <Form.Control type="text" placeholder="Descrição" name='description' />
                     </Form.Group>

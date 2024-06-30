@@ -6,21 +6,21 @@ import { getFirestore, getDocs, collection, doc, deleteDoc } from "firebase/fire
 const db = getFirestore(firebaseConfig);
 
 export default function TablePage() {
-    const [valueIn, setValueIn] = useState<{ date: any, value: Number, account: string, category: string, description: string }[]>([]);
-    const [valueOut, setValueOut] = useState<{ date: any, value: Number, account: string, category: string, description: string }[]>([]);
+    const [valueIn, setValueIn] = useState<{ id: any, date: any, value: Number, account: string, category: string, description: string }[]>([]);
+    const [valueOut, setValueOut] = useState<{ id: any, date: any, value: Number, account: string, category: string, description: string }[]>([]);
 
     const fetchData = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, 'TrEntrada'));
             const data = querySnapshot.docs.map(doc => {
                 const id = doc.id;
-                const transictionData = doc.data() as { date: any, value: Number, account: string, category: string, description: string };
+                const transictionData = doc.data() as { date: any, value: any, account: string, category: string, description: string };
                 return { id, ...transictionData };
             });
             const querySnapshotOut = await getDocs(collection(db, 'TrSaida'));
             const dataOut = querySnapshotOut.docs.map(doc => {
                 const id = doc.id;
-                const transictionData = doc.data() as { date: any, value: Number, account: string, category: string, description: string };
+                const transictionData = doc.data() as { date: any, value: any, account: string, category: string, description: string };
                 return { id, ...transictionData };
             });
             setValueOut(dataOut);
@@ -64,9 +64,9 @@ export default function TablePage() {
                             {valueIn.map((item, index) => (
                                 <tr key={index}>
                                     <td>{item.date}</td>
-                                    <td>{item.value}</td>
-                                    <td>{item.Account}</td>
-                                    <td>{item.Category}</td>
+                                    <td>{String(item.value)}</td>
+                                    <td>{item.account}</td>
+                                    <td>{item.category}</td>
                                     <td>{item.description}</td>
                                     <td><Button variant='danger' onClick={() => deleteAccount(item.id)}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -94,9 +94,9 @@ export default function TablePage() {
                             {valueOut.map((item, index) => (
                                 <tr key={index}>
                                     <td>{item.date}</td>
-                                    <td>{item.value}</td>
-                                    <td>{item.Account}</td>
-                                    <td>{item.Category}</td>
+                                    <td>{String(item.value)}</td>
+                                    <td>{item.account}</td>
+                                    <td>{item.category}</td>
                                     <td>{item.description}</td>
                                     <td><Button variant='danger' onClick={() => deleteAccount(item.id)}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
