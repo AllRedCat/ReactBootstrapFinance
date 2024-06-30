@@ -36,7 +36,7 @@ export default function Categories() {
         event.preventDefault();
         try {
             await addDoc(collection(db, 'Categories'), {
-                name: event.currentTarget.name.value,
+                name: event.currentTarget.name.value,n
                 description: event.currentTarget.description.value
             });
             window.location.reload();
