@@ -9,7 +9,7 @@ const db = getFirestore(firebaseConfig);
 
 export default function Categories() {
     const [categories, setCategories] = useState<{
-        id(id: any): void; name: string; description: string;
+        id: any; name: string; description: string;
     }[]>([]);
 
     const fetchData = async () => {
@@ -36,11 +36,10 @@ export default function Categories() {
         event.preventDefault();
         try {
             await addDoc(collection(db, 'Categories'), {
-                name: event.currentTarget.name.value,n
+                name: event.currentTarget.category.value,
                 description: event.currentTarget.description.value
             });
             window.location.reload();
-            setCategories([...categories, { name: event.currentTarget.name.value, description: event.currentTarget.description.value }]);
         } catch (error) {
             console.log(error);
         }
@@ -52,7 +51,7 @@ export default function Categories() {
                 <Form onSubmit={submitHandler}>
                     <Form.Group className='mb-3' controlId="formBasicEmail">
                         <Form.Label>Categoria</Form.Label>
-                        <Form.Control type="text" placeholder="Categoria" name='name' />
+                        <Form.Control type="text" placeholder="Categoria" name='category' />
                         <Form.Label>Descrição</Form.Label>
                         <Form.Control type="text" placeholder="Descrição" name='description' />
                     </Form.Group>
