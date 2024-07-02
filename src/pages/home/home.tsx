@@ -1,7 +1,26 @@
+import { Row, Col, Container } from 'react-bootstrap';
+// import MyChart from '../../components/chart';
+
 export default function Home() {
     return (
-        <div>
-            <h1>Home</h1>
-        </div>
+        <Container>
+            <Row>
+                <Col>
+                    {/* <h2>Primeiro Gráfico</h2> */}
+                    {/* <MyChart /> */}
+                </Col>
+                <Col>
+                    <h2>Segundo Gráfico</h2>
+                </Col>
+                <Col>
+                    <h2>Terceiro Gráfico</h2>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <h2>Gráfico visão geral</h2>
+                </Col>
+            </Row>
+        </Container>
     );
 }

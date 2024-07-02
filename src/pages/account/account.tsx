@@ -12,7 +12,7 @@ export default function Account() {
     const [accounts, setAccounts] = useState<{
         id:any; name: string; description: string;
     }[]>([]);
-
+    
     const fetchData = async () => {
         const querySnapshot = await getDocs(collection(db, 'Accounts'));
         // const data = querySnapshot.docs.map(doc => doc.data() as { name: string; description: string; });
