@@ -1,13 +1,11 @@
 import { Row, Col, Container } from 'react-bootstrap';
-// import MyChart from '../../components/chart';
 
-export default function Home() {
+export default function Home() {    
     return (
         <Container>
             <Row>
                 <Col>
-                    {/* <h2>Primeiro Gráfico</h2> */}
-                    {/* <MyChart /> */}
+                    <h2>Primeiro Gráfico</h2>
                 </Col>
                 <Col>
                     <h2>Segundo Gráfico</h2>
